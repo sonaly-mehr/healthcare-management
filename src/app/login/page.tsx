@@ -6,13 +6,13 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { getUserInfo, storeUserInfo } from "@/services/auth.services";
 import { z } from "zod";
 import { useState } from "react";
 import Form from "../components/ui/Forms/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputFeild from "../components/ui/Forms/InputFeild";
 import { userLogin } from "@/services/auth/userLogin";
+import { getUserInfo } from "@/services/auth.services";
 
 export const validationSchema = z.object({
   email: z.string().email("Please enter a valid email address!"),
@@ -25,19 +25,28 @@ const LoginPage = () => {
 
   const handleLogin = async (values: FieldValues) => {
     try {
-      const res = await userLogin(values); // Call the server action
+      const res = await userLogin(values);
 
       if (res?.data?.accessToken) {
-        toast.success(res?.message);
-        storeUserInfo({ accessToken: res?.data?.accessToken });
+        toast.success("Login successful");
+
+        // Get user info (role) from the token or another service
         const { role } = getUserInfo();
-        router.push(`/dashboard/${role}`);
-      } else {
-        toast.error(res?.message || "Login failed!");
+
+        // Check if the role is either "admin" or "doctor"
+        if (role === "admin" || role === "doctor") {
+          if (res.data?.needPasswordChange) {
+            router.push("/dashboard/change-password");
+          } else {
+            router.push("/dashboard");
+          }
+        }
+        else{
+          router.push("/dashboard");
+        }
       }
     } catch (err: any) {
-      console.error("Login error:", err.message);
-      toast.error(err.message || "An error occurred");
+      toast.error(err.message || "An error occurred during login");
     }
   };
 
@@ -50,7 +59,7 @@ const LoginPage = () => {
         </div>
 
         <Form
-          onSubmit={handleLogin} // Connects to the handleLogin function
+          onSubmit={handleLogin}
           resolver={zodResolver(validationSchema)}
           defaultValues={{
             email: "",
@@ -72,9 +81,12 @@ const LoginPage = () => {
             />
           </div>
 
-          <p className="text-right mb-4 mt-1 cursor-pointer text-sm font-light hover:text-primary">
+          <Link
+            href="/forgot-password"
+            className="flex justify-end mt-1 cursor-pointer text-sm font-light hover:text-primary"
+          >
             Forgot Password?
-          </p>
+          </Link>
 
           <Button type="submit" className="btn btn-primary w-full my-5">
             Login

@@ -24,27 +24,27 @@ import SpecialtiesTable from "@/app/components/layout/tables/SpecialtiesTable";
 
 export const validationSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
-  file: z.string().optional(),
+  file: z.any().optional(), // Allow file to be an actual File object
 });
 
 const page = () => {
   const router = useRouter();
-  const [createSpecialty] = useCreateSpecialtyMutation();
+  const [createSpecialty, {isLoading}] = useCreateSpecialtyMutation();
 
   const handleFormSubmit = async (values: FieldValues) => {
     const data = modifyPayload(values);
     try {
       const res = await createSpecialty(data).unwrap();
-      console.log("response", res);
+      console.log(res);
       if (res?.id) {
-        console.log("res", res);
         toast.success("Specialty created successfully!!");
-        router.refresh();
+        // setOpen(false);
       }
     } catch (err: any) {
-      console.error("error message", err.message);
+      console.error(err.message);
     }
   };
+
 
   return (
     <div className="">
@@ -76,15 +76,12 @@ const page = () => {
                   name="title"
                   placeholder="Enter Specialty "
                   label="Title"
-                  // defaultValue=""
                 />
-                {/* <FileUpload name="file" label="Upload File" /> */}
+               <FileUpload name="file" label="Upload File" /> 
               </div>
-              {/* <DialogFooter> */}
                 <Button type="submit" className="w-full">
-                  Create
+                  {isLoading ? 'Creating...' : 'Create'}
                 </Button>
-              {/* </DialogFooter> */}
             </Form>
           </DialogContent>
         </Dialog>

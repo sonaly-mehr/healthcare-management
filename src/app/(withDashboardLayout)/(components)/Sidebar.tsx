@@ -11,6 +11,8 @@ import { X } from "lucide-react";
 import { getUserInfo } from "@/services/auth.services";
 import { sidebarMenuItems } from "@/utils/sidebarMenuItems";
 import { UserRole } from "@/types";
+import Image from "next/image";
+import assets from "@/assets";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -56,9 +58,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
               <div className="flex h-16 shrink-0 items-center">
-                <h4 className="font-bold text-lg text-dark capitalize">
-                  Health Care
-                </h4>
+              <div className="flex gap-3 items-center">
+          <Image
+            src={assets.svgs.logo}
+            width={20}
+            height={20}
+            alt="logo"
+            className="w-[20px] h-[20px]"
+          />
+          <h6 className="font-bold text-lg">
+            <span className="text-primary">Health</span> Care
+          </h6>
+        </div>
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -104,9 +115,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
         <div className="flex grow flex-col gap-y-5  border-r border-[#EBEBEB] bg-white pb-4">
           <div className="flex pt-6 pb-8 shrink-0 items-center justify-center">
-            <h4 className="font-bold text-2xl text-dark capitalize">
-              Health Care
-            </h4>
+          <div className="flex gap-3 items-center">
+          <Image
+            src={assets.svgs.logo}
+            width={40}
+            height={40}
+            alt="logo"
+            className="w-[20px] lg:w-[30px] h-[20px] lg:h-[30px]"
+          />
+          <h6 className="font-bold text-sm lg:text-[22px]">
+            <span className="text-primary">Health</span> Care
+          </h6>
+        </div>
           </div>
           <span className="text-darkGray_2 text-base font-medium pl-10">
             Menu

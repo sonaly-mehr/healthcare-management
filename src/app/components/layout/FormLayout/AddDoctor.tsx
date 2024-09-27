@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -22,6 +22,13 @@ import SelecetInput from "../../ui/Forms/SelecetInput";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
+import Chip from "@/components/ui/chip";
+
+type Specialty = {
+  id: string; // or number, based on your data structure
+  title: string;
+};
 
 export const doctorValidationSchema = z.object({
   name: z.string().min(3, "Please enter your name!"),
@@ -46,13 +53,35 @@ export const validationSchema = z.object({
 
 const AddDoctor = () => {
   const router = useRouter();
+  const { data: specialtiesData } = useGetAllSpecialtiesQuery({});
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [createDoctor] = useCreateDoctorMutation();
+
+  // Handler for selecting specialties
+  const handleSelectSpecialty = (specialtyId: string) => {
+    setSelectedSpecialties((prev) =>
+      prev.includes(specialtyId)
+        ? prev.filter((id) => id !== specialtyId)
+        : [...prev, specialtyId]
+    );
+  };
 
   const handleSubmit = async (values: FieldValues) => {
     values.doctor.experience = Number(values.doctor.experience);
     values.doctor.apointmentFee = Number(values.doctor.apointmentFee);
 
-    const data = modifyPayload(values);
+    const specialties = selectedSpecialties.map((id) => ({
+      specialtyId: id, // Adjust based on your actual field name if needed
+    }));
+
+
+    const data = {
+      ...values,
+      doctor: {
+        ...values.doctor,
+        doctorSpecialties: specialties // Add selected specialties here
+      }
+    };
     try {
       const res = await createDoctor(data).unwrap();
       console.log(res);
@@ -64,7 +93,6 @@ const AddDoctor = () => {
       console.error(err);
     }
   };
-
 
   const defaultValues = {
     doctor: {
@@ -181,6 +209,25 @@ const AddDoctor = () => {
                       label="Designation"
                       placeholder="Designation"
                     />
+                  </div>
+
+                  {/* Specialties Chip Selector */}
+                  <div className="mt-4">
+                    <h3 className="text-sm font-medium mb-2">Specialties</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {specialtiesData?.map((specialty: Specialty) => (
+                        <Chip
+                          key={specialty?.id}
+                          label={specialty?.title}
+                          isSelected={selectedSpecialties.includes(
+                            specialty?.id
+                          )}
+                          onSelect={() =>
+                            handleSelectSpecialty(specialty?.id)
+                          }
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
 

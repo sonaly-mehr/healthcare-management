@@ -1,6 +1,7 @@
 import { MapPin } from "lucide-react";
 import Image from "next/image";
 import doctorDemoImg from '../../../../assets/landing_page/doctor-img-demo.webp'
+import Link from "next/link";
 // import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const TopRatedDoctors = async () => {
@@ -31,23 +32,23 @@ const TopRatedDoctors = async () => {
                 className="w-full h-[200px] object-contain"
               />
               <div className="p-4">
-                <h5 className="text-xl font-semibold mb-2">{doctor.name}</h5>
-                <p className="text-gray-700">{doctor.qualification}, {doctor.designation}</p>
+                <h5 className="text-xl font-semibold mb-2">{doctor?.name}</h5>
+                <p className="text-gray-700">{doctor?.qualification}, {doctor?.designation}</p>
                 <p className="text-gray-700 mt-1 flex items-center">
-                  <MapPin className="mr-1" /> {doctor.address}
+                  <MapPin className="mr-1" /> {doctor?.address}
                 </p>
               </div>
               <div className="flex justify-between p-4">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">Book Now</button>
-                <button className="border border-blue-500 text-blue-500 py-2 px-4 rounded-lg">View Profile</button>
+                <Link href={`/doctors/${doctor?.id}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg">Book Now</Link>
+                <Link href={`/doctors/${doctor?.id}`} className="border border-blue-500 text-blue-500 py-2 px-4 rounded-lg">View Profile</Link>
               </div>
             </div>
           ))}
         </div>
         <div className="text-center mt-8">
-          <button className="border border-blue-500 text-blue-500 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300">
+          <Link href="/doctors" className="border border-blue-500 text-blue-500 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300">
             View ALL
-          </button>
+          </Link>
         </div>
       </div>
     </div>

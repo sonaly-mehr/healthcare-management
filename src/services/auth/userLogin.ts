@@ -1,9 +1,12 @@
-"use client";
-
+'use client'
 import { FieldValues } from "react-hook-form";
-import setAccessToken from "./setAccessToken";
+import setAccessTokenLocal from "./setAccessToken";
+// import { setAccessToken, setUser } from '@/store/authSlice';
+// import { useAppDispatch } from "@/redux/hooks";
+// import { setAccessToken, setUser } from "@/redux/slice/authSlice";
 
 export const userLogin = async (data: FieldValues) => {
+  // const dispatch = useAppDispatch();
   try {
     const res = await fetch('http://localhost:5000/api/v1/auth/login', {
       method: "POST",
@@ -11,23 +14,25 @@ export const userLogin = async (data: FieldValues) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-      credentials: 'include', // Include cookies for session handling
+      credentials: 'include',
     });
 
     if (!res.ok) {
-      throw new Error('Login failed');
+      const errorResponse = await res.json();
+      throw new Error(errorResponse?.message || "Login failed!");
     }
 
     const userInfo = await res.json();
 
-    // If accessToken is present, set it and manage the redirect
     if (userInfo.data.accessToken) {
-      setAccessToken(userInfo.data.accessToken); // Pass the router instance
+      setAccessTokenLocal(userInfo.data.accessToken);
+      // dispatch(setAccessToken(userInfo.data.accessToken));
+      // dispatch(setUser(userInfo.data.user)); // Assuming user data is returned
     }
 
     return userInfo;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Login error:', error);
-    throw error;
+    throw error; 
   }
 };

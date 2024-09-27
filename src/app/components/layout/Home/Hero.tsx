@@ -1,6 +1,7 @@
 import Image from "next/image";
 import assets from "@/assets";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -20,9 +21,10 @@ const HeroSection = () => {
           Rerum maiores saepe cupiditate repellat recusandae atque sed. Saepe,
           vitae id?
         </p>
-        <div className="flex gap-4 lg:gap-2 mt-6 lg:mt-10">
-          <Button>Make appointment</Button>
-          <Button variant="outline">Contact us</Button>
+        <div className="flex gap-4 lg:gap-2 mt-6 lg:mt-10 relative z-10">
+          <Button asChild>
+            <Link href="/doctors">Make appointment</Link></Button>
+          <Button variant="outline" className="border-blue-400 text-black">Contact us</Button>
         </div>
       </div>
 

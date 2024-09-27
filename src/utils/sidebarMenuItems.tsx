@@ -8,10 +8,12 @@ import {
   CalendarDays,
   CalendarFold,
   CalendarRange,
+  Contact,
   CreditCard,
   FileChartColumnIncreasing,
   Gem,
   House,
+  KeyRound,
   MessageSquareCode,
   Stethoscope,
   UserRoundPen,
@@ -26,13 +28,18 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
       roleMenus.push(
         {
           title: "Dashboard",
-          path: `/dashboard/${role}`,
+          path: `/dashboard`,
           icon: <House />,
         },
         {
           title: "Manage Users",
           path: `/dashboard/${role}/manage-users`,
           icon: <UsersRound />,
+        },
+        {
+          title: "Password",
+          path: `/dashboard/change-password`,
+          icon: <KeyRound />
         }
       );
       break;
@@ -41,7 +48,7 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
       roleMenus.push(
         {
           title: "Dashboard",
-          path: `/dashboard/${role}`,
+          path: `/dashboard`,
           icon: <House />,
         },
         {
@@ -53,6 +60,11 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
           title: "Doctors",
           path: `/dashboard/${role}/doctor`,
           icon: <Stethoscope />,
+        },
+        {
+          title: "Patients",
+          path: `/dashboard/${role}/patient`,
+          icon: <Contact />,
         },
         {
           title: "Schedules",
@@ -68,6 +80,11 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
           title: "Reviews",
           path: `/dashboard/${role}/review`,
           icon: <MessageSquareCode />,
+        },
+        {
+          title: "Password",
+          path: `/dashboard/change-password`,
+          icon: <KeyRound />
         }
       );
       break;
@@ -76,7 +93,7 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
       roleMenus.push(
         {
           title: "Dashboard",
-          path: `/dashboard/${role}`,
+          path: `/dashboard`,
           icon: <House />,
         },
         {
@@ -93,6 +110,11 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
           title: "Profile",
           path: `/dashboard/${role}/profile`,
           icon: <UserRoundPen />
+        },
+        {
+          title: "Password",
+          path: `/dashboard/change-password`,
+          icon: <KeyRound />
         }
       );
       break;
@@ -101,7 +123,7 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
       roleMenus.push(
         {
           title: "Dashboard",
-          path: `/dashboard/${role}`,
+          path: `/dashboard`,
           icon: <House />,
         },
         {
@@ -123,7 +145,22 @@ export const sidebarMenuItems = (role: UserRole): SidebarItem[] => {
           title: "Profile",
           path: `/dashboard/${role}/profile`,
           icon: <UserRoundPen />
-        }
+        },
+        {
+          title: "Password",
+          path: `/dashboard/change-password`,
+          icon: <KeyRound />
+        },
+        {
+          title: "Medical Reports",
+          path: `/dashboard/${role}/medical-report`,
+          icon: <FileChartColumnIncreasing />,
+        },
+        {
+          title: "Health Data",
+          path: `/dashboard/${role}/health-data`,
+          icon: <FileChartColumnIncreasing />,
+        },
       );
       break;
 

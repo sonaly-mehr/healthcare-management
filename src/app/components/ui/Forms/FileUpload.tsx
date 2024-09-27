@@ -1,13 +1,13 @@
-import { CloudUpload } from "lucide-react";
 import * as React from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { CloudUpload } from "lucide-react"; // Using lucide-react for the icon, similar to CloudUploadIcon
 
 type TProps = {
   name: string;
   label?: string;
 };
 
-export default function FileUpload({ name, label }: TProps) {
+export default function PHFileUploader({ name, label }: TProps) {
   const { control } = useFormContext();
   return (
     <Controller
@@ -15,15 +15,17 @@ export default function FileUpload({ name, label }: TProps) {
       control={control}
       render={({ field: { onChange, value, ...field } }) => {
         return (
-          <label className="inline-flex gap-x-3 text-primary justify-center items-center px-4 py-2 bg-transparent border-[1px] border-primary  rounded cursor-pointer">
-            <CloudUpload />
+          <label
+            className="flex items-center gap-x-2 px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer hover:bg-blue-700"
+          >
+            <CloudUpload className="w-5 h-5" />
             {label || "Upload file"}
             <input
               {...field}
-              type={name}
+              type="file" // Set file as the type instead of name
               value={value?.fileName}
               onChange={(e) =>
-                onChange((e.target as HTMLInputElement).files?.[0])
+                onChange((e?.target as HTMLInputElement).files?.[0])
               }
               className="hidden"
             />

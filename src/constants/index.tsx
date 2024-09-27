@@ -2,7 +2,7 @@
 export const NAV_ITEMS = [
   {
     lable: "Consultation",
-    link: "#",
+    link: "/dashboard",
   },
   {
     lable: "Health Plans",
@@ -19,6 +19,10 @@ export const NAV_ITEMS = [
   {
     lable: "NGOs",
     link: "#",
+  },
+  {
+    lable: "Dashboard",
+    link: "/dashboard"
   },
 ];
 

@@ -18,9 +18,10 @@ export const getUserInfo = () => {
     const decodedData: any = decodedToken(authToken);
     return {
       ...decodedData,
-      role: decodedData?.role.toLowerCase(),
+      role: decodedData?.role ? decodedData.role.toLowerCase() : null, // Check if 'role' exists, otherwise return null
     };
   }
+  return null;
 };
 
 export const isLoggedIn = () => {

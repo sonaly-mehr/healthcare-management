@@ -20,18 +20,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 
 const SpecialtiesTable = () => {
+  const router = useRouter()
   const userInfo = getUserInfo();
   console.log("user info", userInfo);
-  // const [domLoaded, setDomLoaded] = useState(false);
   const { data, isLoading } = useGetAllSpecialtiesQuery({});
   const [deleteSpecialty] = useDeleteSpecialtyMutation();
   console.log("data", data);
 
-  // useEffect(() => {
-  //   setDomLoaded(true);
-  // }, []);
 
   const handleDelete = async (id: string) => {
     try {
@@ -58,7 +56,6 @@ const SpecialtiesTable = () => {
                     speedMultiplier={1}
                     cssOverride={{}}
                     size={50}
-                    // speedMultiplier= {1}
                   />
                 </div>
               ) : (
@@ -86,7 +83,8 @@ const SpecialtiesTable = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {data?.map((data: any, index: number) => (
+                    {data.length>0 ?
+                    data?.map((data: any, index: number) => (
                       <tr key={index} className="even:bg-gray-50">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
                           {data?.title}
@@ -101,11 +99,16 @@ const SpecialtiesTable = () => {
                           />
                         </td>
                         <td className="flex items-center gap-3 justify-end relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                          <Pencil
+                          {/* <Pencil
                             className="text-primary cursor-pointer"
                             width={18}
                             height={18}
-                          />
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/admin/specialties/edit/${data?.id}`
+                              )
+                            }
+                          /> */}
                           <AlertDialog>
                             <AlertDialogTrigger>
                               {" "}
@@ -136,7 +139,7 @@ const SpecialtiesTable = () => {
                           </AlertDialog>
                         </td>
                       </tr>
-                    ))}
+                    )): <p className="text-center bg-transparent py-5">No Specialties Found</p>}
                   </tbody>
                 </table>
               )}

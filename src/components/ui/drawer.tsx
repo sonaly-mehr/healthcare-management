@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
-
 import { cn } from "@/lib/utils"
 
 const Drawer = ({
@@ -43,13 +42,13 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 flex h-auto flex-col rounded-t-[10px] border bg-white",
+        "fixed inset-x-0 top-0 z-50 flex h-full flex-col rounded-t-[10px] border bg-white",
         className
       )}
       {...props}
     >
       <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
+      <div className="flex-1 overflow-y-auto p-4">{children}</div>
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ))
@@ -90,7 +89,7 @@ const DrawerTitle = React.forwardRef<
     {...props}
   />
 ))
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName
+DrawerTitle.displayName = "DrawerTitle"
 
 const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Description>,
@@ -102,7 +101,7 @@ const DrawerDescription = React.forwardRef<
     {...props}
   />
 ))
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName
+DrawerDescription.displayName = "DrawerDescription"
 
 export {
   Drawer,
