@@ -8,7 +8,7 @@ import Chips from "@/app/components/ui/Chips";
 const PatientAppointmentsPage = () => {
   const { data, isLoading } = useGetMyAppointmentsQuery({});
   console.log("data", data);
-  const appointments = data?.appointments;
+  const appointments = data?.appointments || [];
 
   const renderCell = (row: any, type: any) => {
     switch (type) {
@@ -16,7 +16,9 @@ const PatientAppointmentsPage = () => {
         return (
           <div>
             <span className="font-semibold">{row.doctor.name}</span>
-            <div className="text-gray-500 text-sm">{row.doctor.designation}</div>
+            <div className="text-gray-500 text-sm">
+              {row.doctor.designation}
+            </div>
           </div>
         );
       case "appointmentDate":
@@ -34,7 +36,9 @@ const PatientAppointmentsPage = () => {
           <Link
             href={`/video?videoCallingId=${row?.videoCallingId}`}
             className={`p-2 rounded-full ${
-              row.paymentStatus === "UNPAID" ? "pointer-events-none opacity-50" : ""
+              row.paymentStatus === "UNPAID"
+                ? "pointer-events-none opacity-50"
+                : ""
             }`}
           >
             <svg
@@ -59,33 +63,56 @@ const PatientAppointmentsPage = () => {
           <table className="min-w-full bg-white border border-gray-300 rounded-md">
             <thead className="bg-gray-200">
               <tr className="bg-blue-100">
-                <th className="py-3 px-4 text-left font-semibold text-gray-800">Doctor Name</th>
-                <th className="py-3 px-4 text-center font-semibold text-gray-800">Appointment Date</th>
-                <th className="py-3 px-4 text-center font-semibold text-gray-800">Appointment Time</th>
-                <th className="py-3 px-4 text-center font-semibold text-gray-800">Payment Status</th>
-                <th className="py-3 px-4 text-center font-semibold text-gray-800">Join</th>
+                <th className="py-3 px-4 text-left font-semibold text-gray-800">
+                  Doctor Name
+                </th>
+                <th className="py-3 px-4 text-center font-semibold text-gray-800">
+                  Appointment Date
+                </th>
+                <th className="py-3 px-4 text-center font-semibold text-gray-800">
+                  Appointment Time
+                </th>
+                <th className="py-3 px-4 text-center font-semibold text-gray-800">
+                  Payment Status
+                </th>
+                <th className="py-3 px-4 text-center font-semibold text-gray-800">
+                  Join
+                </th>
               </tr>
             </thead>
             <tbody>
               {appointments?.length > 0 ? (
-                appointments?.map((row, index) => (
+                (appointments as any[]).map((row, index) => (
                   <tr
                     key={row?.id}
                     className={`border-t border-gray-300 hover:bg-gray-50 ${
                       index % 2 === 0 ? "bg-white" : "bg-gray-100"
                     }`}
                   >
-                    <td className="py-4 px-4">{renderCell(row, "doctorName")}</td>
-                    <td className="py-4 px-4 text-center">{renderCell(row, "appointmentDate")}</td>
-                    <td className="py-4 px-4 text-center">{renderCell(row, "appointmentTime")}</td>
-                    <td className="py-4 px-4 text-center">{renderCell(row, "paymentStatus")}</td>
-                    <td className="py-4 px-4 text-center">{renderCell(row, "action")}</td>
+                    <td className="py-4 px-4">
+                      {renderCell(row, "doctorName")}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {renderCell(row, "appointmentDate")}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {renderCell(row, "appointmentTime")}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {renderCell(row, "paymentStatus")}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {renderCell(row, "action")}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="py-4 text-center font-medium text-base text-gray-500">
-                    No Appointment found!
+                  <td
+                    colSpan={5}
+                    className="py-4 text-center font-medium text-base text-gray-500"
+                  >
+                    No appointments found
                   </td>
                 </tr>
               )}

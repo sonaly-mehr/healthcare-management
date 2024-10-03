@@ -20,7 +20,9 @@ const Doctors = ({ searchParams }: PropType) => {
    };
 
    // Fetch doctors based on the selected specialty
-   const { data: doctorsData, isLoading } = useGetAllDoctorsQuery(query);
+   const { data, isLoading } = useGetAllDoctorsQuery(query);
+
+   const doctorsData = Array.isArray(data?.doctors) ? data.doctors : [];
 
    // Function to update specialty and trigger a refetch
    const handleSpecialtyChange = (newSpecialty: string) => {
@@ -37,14 +39,14 @@ const Doctors = ({ searchParams }: PropType) => {
          <div className="mt-2 p-3 bg-secondary-light grid lg:grid-cols-2 gap-x-4">
             {isLoading && <div>Loading...</div>}
 
-            {doctorsData?.doctors?.map((doctor: any, index: number) => (
+            {(doctorsData as any[])?.map((doctor: any, index: number) => (
                <div key={doctor?.id} className='my-8'>
                   <DoctorCard doctor={doctor} />
-                  {index < doctorsData?.doctors?.length - 1 && <DashedLine />}
+                  {index < doctorsData?.length - 1 && <DashedLine />}
                </div>
             ))}
 
-            {doctorsData?.doctors?.length === 0 && (
+            {doctorsData?.length === 0 && (
                <div className="text-center mt-4">No Doctor Found With This Specialty</div>
             )}
          </div>

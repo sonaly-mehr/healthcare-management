@@ -7,7 +7,7 @@ import Chips from "@/app/components/ui/Chips";
 
 const PaymentHistory = () => {
   const { data, isLoading } = useGetMyAppointmentsQuery({});
-  const appointments = data?.appointments;
+  const appointments = data?.appointments || [];
 
   const renderCell = (row: any, type: any) => {
     switch (type) {
@@ -54,7 +54,7 @@ const PaymentHistory = () => {
             </thead>
             <tbody>
               {appointments?.length > 0 ? (
-                appointments?.map((row) => (
+                (appointments as any[]).map((row) => (
                   <tr
                     key={row?.id}
                     className="border-t border-gray-300 hover:bg-gray-50 transition duration-200"

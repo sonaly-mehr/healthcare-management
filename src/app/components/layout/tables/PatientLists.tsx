@@ -39,6 +39,7 @@ const PatientsLists = () => {
     limit: itemsPerPage,
     searchTerm: debouncedTerm, // Use debounced term for API query
   });
+  const patients = Array.isArray(data?.patients) ? data.patients : [];
   console.log("all patients", data)
   const totalPages = Math.ceil((data?.meta?.total || 0) / itemsPerPage);
 
@@ -125,7 +126,8 @@ const PatientsLists = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {data?.patients?.map((patient: any, index: number) => (
+                {patients?.length > 0 ?
+                (patients as any[]).map((patient: any, index: number) => (
                   <tr key={index}>
                     <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                       <div className="flex items-center pl-2">
@@ -198,7 +200,16 @@ const PatientsLists = () => {
                       </AlertDialog>
                     </td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="py-4 text-center font-medium text-base text-gray-500"
+                    >
+                      No patients found!
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

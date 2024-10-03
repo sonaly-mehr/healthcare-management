@@ -2,8 +2,15 @@
 
 import { Button } from "@/components/ui/button"; // Import Shadcn Button
 
+// Define the props interface
+interface ChipProps {
+  label: string; // Define label as a string
+  onSelect: (label: string) => void; // Define onSelect as a function that takes a string and returns void
+  isSelected: boolean; // Define isSelected as a boolean
+}
+
 // Chip Component
-const Chip = ({ label, onSelect, isSelected }) => {
+const Chip: React.FC<ChipProps> = ({ label, onSelect, isSelected }) => {
   return (
     <Button
       onClick={() => onSelect(label)}
