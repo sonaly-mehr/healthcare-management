@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { FieldValues } from "react-hook-form";
 import { useForgotPasswordMutation } from "@/redux/api/authApi";
 import { useState } from "react"; // Import useState to manage success state
@@ -9,10 +8,8 @@ import { toast } from "sonner";
 import { Check, KeyRound } from "lucide-react";
 import Form from "@/app/components/ui/Forms/Form";
 import InputFeild from "@/app/components/ui/Forms/InputFeild";
+import {ForgotPasswordValidation} from '../../../utils/validationSchema'
 
-const validationSchema = z.object({
-  email: z.string().email("Please enter a valid email address!"),
-});
 
 const ForgotPassword = () => {
   const [forgotPassword] = useForgotPasswordMutation();
@@ -48,7 +45,7 @@ const ForgotPassword = () => {
           <Form
             onSubmit={onSubmit}
             defaultValues={{ email: "" }}
-            resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(ForgotPasswordValidation)}
           >
             <div className="mb-4">
               <InputFeild

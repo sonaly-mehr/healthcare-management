@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues } from 'react-hook-form';
-import { z } from 'zod';
 import { useSearchParams } from 'next/navigation';
 import { useResetPasswordMutation } from '@/redux/api/authApi';
 import { useEffect } from 'react';
@@ -13,10 +12,7 @@ import { removeUser } from '@/services/auth.services';
 import { KeyRound } from 'lucide-react';
 import Form from '@/app/components/ui/Forms/Form';
 import InputFeild from '@/app/components/ui/Forms/InputFeild';
-
-const validationSchema = z.object({
-   newPassword: z.string().min(6, 'Must be at least 6 characters long'),
-});
+import { ResetPasswordValidation } from '@/utils/validationSchema';
 
 const ResetPassword = () => {
    const searchParams = useSearchParams();
@@ -64,7 +60,7 @@ const ResetPassword = () => {
          <Form
             onSubmit={onSubmit}
             defaultValues={{ newPassword: '' }}
-            resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(ResetPasswordValidation)}
          >
             <div className="grid">
                <div className="col-span-12 md:col-span-6">

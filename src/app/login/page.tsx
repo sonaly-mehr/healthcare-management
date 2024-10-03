@@ -6,18 +6,14 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 import { useState } from "react";
 import Form from "../components/ui/Forms/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputFeild from "../components/ui/Forms/InputFeild";
 import { userLogin } from "@/services/auth/userLogin";
 import { getUserInfo } from "@/services/auth.services";
+import { LoginValidation } from "@/utils/validationSchema";
 
-export const validationSchema = z.object({
-  email: z.string().email("Please enter a valid email address!"),
-  password: z.string().min(6, "Must be at least 6 characters"),
-});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -60,7 +56,7 @@ const LoginPage = () => {
 
         <Form
           onSubmit={handleLogin}
-          resolver={zodResolver(validationSchema)}
+          resolver={zodResolver(LoginValidation)}
           defaultValues={{
             email: "",
             password: "",

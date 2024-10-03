@@ -20,7 +20,7 @@ import FileUpload from "@/app/components/ui/Forms/FileUpload";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SpecialtiesTable from "@/app/components/layout/tables/SpecialtiesTable";
-import { validationSchema } from "../../../../../utils/specialtyValidationSchema";
+import { SpecialtyValidation } from "@/utils/validationSchema";
 
 const Specialties = () => {
   const router = useRouter();
@@ -60,7 +60,7 @@ const Specialties = () => {
 
             <Form
               onSubmit={handleFormSubmit}
-              resolver={zodResolver(validationSchema)}
+              resolver={zodResolver(SpecialtyValidation)}
               defaultValues={{
                 title: "",
                 file: "",

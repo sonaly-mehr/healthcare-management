@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues } from 'react-hook-form';
-import { z } from 'zod';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useChangePasswordMutation } from '@/redux/api/authApi';
@@ -11,11 +10,8 @@ import { KeyRound } from 'lucide-react';
 import Form from '@/app/components/ui/Forms/Form';
 import InputFeild from '@/app/components/ui/Forms/InputFeild';
 import { Button } from '@/components/ui/button';
+import { ChangePassswordSchema } from '@/utils/validationSchema';
 
-const validationSchema = z.object({
-   oldPassword: z.string().min(6, 'Must be at least 6 characters long'),
-   newPassword: z.string().min(6, 'Must be at least 6 characters long'),
-});
 
 const ChangePassword = () => {
    const [changePassword, { isLoading }] = useChangePasswordMutation();
@@ -55,7 +51,7 @@ const ChangePassword = () => {
          <Form
             onSubmit={onSubmit}
             defaultValues={{ oldPassword: '', newPassword: '' }}
-            resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(ChangePassswordSchema)}
          >
             <div className="grid grid-cols-1 gap-0">
                <InputFeild

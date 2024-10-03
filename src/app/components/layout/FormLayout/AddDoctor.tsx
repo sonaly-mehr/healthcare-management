@@ -24,32 +24,14 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import Chip from "@/components/ui/chip";
+import { DoctorValidation } from "@/utils/validationSchema";
+
 
 type Specialty = {
   id: string; // or number, based on your data structure
   title: string;
 };
 
-export const doctorValidationSchema = z.object({
-  name: z.string().min(3, "Please enter your name!"),
-  email: z.string().email("Please enter a valid email address!"),
-  contactNumber: z
-    .string()
-    .regex(/^\d{11}$/, "Please provide a valid phone number!"),
-  gender: z.string().min(1, "Please enter gender!"),
-  address: z.string().min(1, "Please enter your address!"),
-  registrationNumber: z.string().min(1, "Please enter registration number!"),
-  apointmentFee: z.string().min(1, "Please enter apointment fee!"),
-  experience: z.string().min(1, "Please enter experience!"),
-  qualification: z.string().min(1, "Please enter qualification!"),
-  currentWorkingPlace: z.string().min(1, "Please enter current working place!"),
-  designation: z.string().min(1, "Please enter designation!"),
-});
-
-export const validationSchema = z.object({
-  password: z.string().min(6, "Must be at least 6 characters"),
-  doctor: doctorValidationSchema,
-});
 
 const AddDoctor = () => {
   const router = useRouter();
@@ -129,7 +111,7 @@ const AddDoctor = () => {
               <Form
                 onSubmit={handleSubmit}
                 defaultValues={defaultValues}
-                resolver={zodResolver(validationSchema)}
+                resolver={zodResolver(DoctorValidation)}
               >
                 <div className="">
                   <div className="flex gap-5 flex-wrap">

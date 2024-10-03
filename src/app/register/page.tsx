@@ -2,32 +2,17 @@
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifyPayloads";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { toast } from "sonner";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputFeild from "../components/ui/Forms/InputFeild";
 import Form from "../components/ui/Forms/Form";
+import { PatientRegister } from "@/utils/validationSchema";
 
-export const patientValidationSchema = z.object({
-  name: z.string().min(1, "Please enter your name!"),
-  email: z.string().email("Please enter a valid email address!"),
-  contactNumber: z
-    .string()
-    .regex(/^\d{11}$/, "Please provide a valid phone number!"),
-  address: z.string().min(1, "Please enter your address!"),
-});
-
-export const validationSchema = z.object({
-  password: z.string().min(6, "Must be at least 6 characters"),
-  patient: patientValidationSchema,
-});
 
 export const defaultValues = {
   password: "",
@@ -64,7 +49,7 @@ const page = () => {
         </div>
         <Form
           onSubmit={handleSignUP}
-          resolver={zodResolver(validationSchema)}
+          resolver={zodResolver(PatientRegister)}
           defaultValues={defaultValues}
         >
           <div className="flex flex-col justify-center items-center gap-3">

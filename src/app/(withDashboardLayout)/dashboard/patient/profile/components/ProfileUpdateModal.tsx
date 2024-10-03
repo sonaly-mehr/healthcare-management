@@ -8,7 +8,6 @@ import {
   DrawerFooter,
   DrawerDescription,
 } from "@/components/ui/drawer";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues } from "react-hook-form";
 import Form from "@/app/components/ui/Forms/Form";
@@ -17,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useGetPatientQuery, useUpdatePatientMutation } from "@/redux/api/patientsApi";
+import { UpdateProfile } from "@/utils/validationSchema";
 
 type TProps = {
   open: boolean;
@@ -24,11 +24,6 @@ type TProps = {
   id: string;
 };
 
-const validationSchema = z.object({
-  name: z.string().optional(),
-  contactNumber: z.string().optional(),
-  address: z.string().optional(),
-});
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const router = useRouter()
@@ -78,7 +73,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
             <Form
               onSubmit={submitHandler}
               defaultValues={patientData}
-              resolver={zodResolver(validationSchema)}
+              resolver={zodResolver(UpdateProfile)}
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <InputFeild name="name" label="Name" />

@@ -9,7 +9,6 @@ import {
   DrawerFooter,
   DrawerDescription,
 } from "@/components/ui/drawer";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues } from "react-hook-form";
 import { Gender } from "@/types";
@@ -22,9 +21,9 @@ import {
   useUpdateDoctorMutation,
 } from "@/redux/api/doctorsApi";
 import { Button } from "@/components/ui/button";
-import MultipleSelectChips from "./MultipleSelectChips";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { ProfileModal } from "@/utils/validationSchema";
 
 type TProps = {
   open: boolean;
@@ -32,17 +31,6 @@ type TProps = {
   id: string;
 };
 
-const validationSchema = z.object({
-  experience: z.coerce.number().int().optional(),
-  apointmentFee: z.coerce.number().int().optional(),
-  name: z.string().optional(),
-  contactNumber: z.string().optional(),
-  registrationNumber: z.string().optional(),
-  gender: z.string().optional(),
-  qualification: z.string().optional(),
-  currentWorkingPlace: z.string().optional(),
-  designation: z.string().optional(),
-});
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const router = useRouter()
@@ -107,7 +95,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
             <Form
               onSubmit={submitHandler}
               defaultValues={doctorData}
-              resolver={zodResolver(validationSchema)}
+              resolver={zodResolver(ProfileModal)}
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <InputFeild name="name" label="Name" />
