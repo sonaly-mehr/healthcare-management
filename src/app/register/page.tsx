@@ -14,17 +14,19 @@ import Form from "../components/ui/Forms/Form";
 import { PatientRegister } from "@/utils/validationSchema";
 
 
-export const defaultValues = {
-  password: "",
-  patient: {
-    name: "",
-    email: "",
-    contactNumber: "",
-    address: "",
-  },
-};
 
 const page = () => {
+
+  const defaultValues = {
+    password: "",
+    patient: {
+      name: "",
+      email: "",
+      contactNumber: "",
+      address: "",
+    },
+  };
+  
   const router = useRouter();
 
   const handleSignUP = async (values: FieldValues) => {
@@ -40,6 +42,7 @@ const page = () => {
       console.error(err.message);
     }
   };
+
   return (
     <div className="container mx-auto flex items-center justify-center h-screen">
       <div className="max-w-lg w-full shadow-lg rounded-lg p-8 text-center">
