@@ -27,7 +27,7 @@ export const validationSchema = z.object({
   file: z.any().optional(), // Allow file to be an actual File object
 });
 
-const page = () => {
+const Specialties = () => {
   const router = useRouter();
   const [createSpecialty, {isLoading}] = useCreateSpecialtyMutation();
 
@@ -93,4 +93,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Specialties;
