@@ -18,14 +18,9 @@ import { toast } from "sonner";
 import InputFeild from "@/app/components/ui/Forms/InputFeild";
 import FileUpload from "@/app/components/ui/Forms/FileUpload";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SpecialtiesTable from "@/app/components/layout/tables/SpecialtiesTable";
-
-export const validationSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  file: z.any().optional(), // Allow file to be an actual File object
-});
+import { validationSchema } from "../../../../../utils/specialtyValidationSchema";
 
 const Specialties = () => {
   const router = useRouter();
