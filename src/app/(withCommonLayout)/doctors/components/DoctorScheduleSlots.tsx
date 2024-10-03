@@ -3,8 +3,12 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useCreateAppointmentMutation } from "@/redux/api/appointmentApi";
+import { useCreatePaymentSessionMutation } from "@/redux/api/paymentApi"; // Assuming this exists
 import { getUserInfo } from "@/services/auth.services";
 import { toast } from "sonner";
+
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 type DoctorScheduleSlotsProps = {
   doctorId: string;
@@ -17,6 +21,7 @@ const DoctorScheduleSlots = ({ doctorId, schedules }: DoctorScheduleSlotsProps) 
   const userInfo = getUserInfo();
 
   const [createAppointment] = useCreateAppointmentMutation();
+  const [createPaymentSession] = useCreatePaymentSessionMutation(); // Payment session mutation
 
   const currentDate = new Date();
   const today = currentDate.toLocaleDateString("en-US", { weekday: "long" });
@@ -45,36 +50,37 @@ const DoctorScheduleSlots = ({ doctorId, schedules }: DoctorScheduleSlotsProps) 
       schedule.schedule.startDate <= tomorrowEnd
   );
 
-//   const [createAppointment] = useCreateAppointmentMutation();
-//   const [initialPayment] = useInitialPaymentMutation();
-
   // Handle booking appointment
-  const handleBookAppointment = async () => {
-    try {
-      if(userInfo?.role && userInfo?.role==="patient"){
-      if (doctorId && scheduleId) {
-        const res = await createAppointment({
-          doctorId,
-          scheduleId,
-        }).unwrap();
-
-        if (res.id) {
-         //  const response = await initialPayment(res.id).unwrap();
-
-         //  if (response.paymentUrl) {
-         //    router.push(response.paymentUrl);
-         //  }
-         router.push("/payment")
-        }
+  
+const handleBookAppointment = async () => {
+  try {
+      if (userInfo && userInfo?.role === "patient") {
+          if (doctorId && scheduleId) {
+              const appointmentRes = await createAppointment({ doctorId, scheduleId }).unwrap();
+              if(appointmentRes){
+                router.push("/payment")
+              }
+              // console.log("appointment id", appointmentRes)
+              // if (appointmentRes?.id) {
+              //     const paymentRes = await createPaymentSession({ appointmentId: appointmentRes?.id }).unwrap();
+              //     if (paymentRes?.url) {
+              //         // Use Stripe.js to redirect to the payment page
+              //         const stripe = await stripePromise;
+              //         if (stripe) {
+              //             window.location.href = paymentRes?.url; // Redirecting to the Stripe payment URL
+              //         }
+              //     }
+              // }
+          }
+      } else {
+          toast.error("You must log in to book an appointment!");
+          router.push("/login");
       }
-   } else{
-      toast.error("You must login to book appointment!")
-      router.push("/login")
-   }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  } catch (error) {
+      console.error("Error booking appointment:", error);
+      toast.error("Error booking appointment. Please try again.");
+  }
+};
 
   return (
     <div className="bg-white p-4 mt-1 rounded shadow">

@@ -70,9 +70,9 @@ const DoctorsProfilePage = ({ params }: PropTypes) => {
               <DashedLine />
               <div>
                 <div className="flex flex-col md:flex-row items-center">
-                  <span className="font-bold text-gray-900">Consultation Fee</span>
-                  <div className="ml-2">
-                    <p>Taka : {doctor?.apointmentFee} (incl. Vat)</p>
+                  <span className="font-bold text-gray-900 w-fit">Consultation Fee</span>
+                  <div className="ml-2 w-full">
+                    <p>USD : {doctor?.apointmentFee}$ (incl. Vat)</p>
                     <p>Per consultation</p>
                   </div>
                 </div>
